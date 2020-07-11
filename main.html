@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Visual Experiments</title>
+  <style>
+    .theGrid {
+      display:grid;
+      padding-top:10px;
+      grid-template-columns:1fr 3fr 3fr  1fr;
+    }
+		 canvas { border: 1px solid black; }
+    .indent {
+      padding-left:40px;
+    }
+    .topPad {
+      padding-top:40px;
+    }
+    .emphasis {
+      font-style:italic;
+      font-weight:bold;
+     }
+  </style>
+</head>
+<body onload="draw();" style="font-size:14pt;font-family:arial">
+<script src="page.js"></script>
+<p style="text-align:center"> Grids</p>
+
+	<!--<img id = "theImage" src="images/dogs.jpg" width="150" height="150" alt=""/>-->
+<div>
+ <button onClick="saveImages()">Save Images</button>
+
+<div class="theGrid">
+  <div></div>
+	<div>
+		<canvas id="canvas1" width="500" height="500">
+		</canvas>
+	</div>
+	<div>
+		<canvas id="canvas2" width="500" height="500">
+		</canvas>
+	</div>
+<div>
+	
+</div>
+
+
+</body>
+</html>
