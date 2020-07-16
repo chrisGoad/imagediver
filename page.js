@@ -1,8 +1,12 @@
 
 let canvas1,canvas2,ctx1,ctx2,canvasRect1,canvasRect2,imRect,fit,cRect,dragCorner,frect2,img,cImRect;
-let imageIn = 'images/dogs.jpg';
-let imageOut1 = 'images/dogs_1.jpg';
-let imageOut2 = 'images/dogs_2.jpg';
+let month = 'july_2020';
+//let imageIn = 'neighbors';
+//let imageIn = 'durer_self_portrait_1500';
+let imageIn = 'durer_adam_eve';
+//let imageIn = 'durer_adam_eve_engraving';
+//let imageIn = 'rubens_phaeton';
+
 const draw = function () {
 //	debugger;
 	canvas1 = document.getElementById('canvas1');
@@ -10,6 +14,10 @@ const draw = function () {
 	canvas2 = document.getElementById('canvas2');
 	ctx2 = canvas2.getContext('2d');
 	img = new Image();
+	addListeners();
+	img.src = `${month}/${imageIn}.jpg`;
+}
+
 	//let img2 = canvas2;
 	//ctx.fillStyle = 'rgb(200, 0, 0)';
   //ctx.fillRect(0, 0, 50, 50);
@@ -134,23 +142,6 @@ const nearCorner = function (rect,p) {
 
 	
   
-	
-  canvas1.addEventListener('mousedown', e => {
-		//debugger;
-    let x = e.offsetX;
-    let y = e.offsetY;
-		let p =  {x:x,y:y}
-		let nc = nearCorner(cRect,p);
-		console.log('near corner',nc);
-		dragCorner = nc;
-		//console.log('x ',x,' y ',y);
-  });
-	
-canvas1.addEventListener('mouseup', e => {
-		//debugger;
-		dragCorner = null;
-		//console.log('x ',x,' y ',y);
-  });
 
 const cRectToRectInIm = function () {
 	let {x,y,w,h} = cRect;
@@ -192,17 +183,38 @@ const drawFrame = function () {
 	//ctx2.drawImage(img2,cRect.x,cRect.y,cRect.w,cRect.h,frect2.x,frect2.y,frect2.w,frect2.h);
 	
 }
-canvas1.addEventListener('mousemove', e => {
+const addListeners  = function () {
+	
+	
+	
+	canvas1.addEventListener('mouseup', e => {
+			//debugger;
+			dragCorner = null;
+			//console.log('x ',x,' y ',y);
+		});
+		
+  canvas1.addEventListener('mousedown', e => {
+		//debugger;
     let x = e.offsetX;
     let y = e.offsetY;
-		if (dragCorner) {
-			let p =  {x:x,y:y};
-			nudgeRect(dragCorner,p);
-			drawFrame();
-		}
-
+		let p =  {x:x,y:y}
+		let nc = nearCorner(cRect,p);
+		console.log('near corner',nc);
+		dragCorner = nc;
 		//console.log('x ',x,' y ',y);
   });
+	
+	canvas1.addEventListener('mousemove', e => {
+			let x = e.offsetX;
+			let y = e.offsetY;
+			if (dragCorner) {
+				let p =  {x:x,y:y};
+				nudgeRect(dragCorner,p);
+				drawFrame();
+			}
+
+			//console.log('x ',x,' y ',y);
+		});
 
 	debugger;
 	img.addEventListener('load', function () {
@@ -240,7 +252,6 @@ canvas1.addEventListener('mousemove', e => {
 		//cRect.w = 50;
 		//drawFrame();
 	},false);
-	img.src = 'images/dogs.jpg';
 }
 
 const httpPost = function (url,data,cb) {
@@ -286,12 +297,17 @@ const saveBase64Image = function (destPath,dataURL,cb) {
   } 
 	
 	const saveImages = function () {
-		harvestImage(canvas1,imageOut1, () => {
+		harvestImage(canvas1,`${month}/${imageIn}_main.jpg`, () => {
 			canvas2.width = frect2.w;
 			canvas2.height = frect2.h;
 			ctx2.drawImage(img,cImRect.x,cImRect.y,cImRect.w,cImRect.h,0,0,frect2.w,frect2.h);
-			harvestImage(canvas2,imageOut2,() => {
-			  alert('images saved');
+			harvestImage(canvas2,`${month}/${imageIn}_detail.jpg`,() => {
+				let data = {detail:cRect,canvas:canvasRect1};
+				let dataS = JSON.stringify(data);
+				let setData = `let data = JSON.parse('${dataS}');`;
+				httpPost(`${month}/${imageIn}_data.js`,setData,(rs) => {
+			    alert('images saved');
+				});
 			})
 		});
 	}

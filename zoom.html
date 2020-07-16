@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ImageDiver</title>
+  <style>
+    .theGrid {
+      display:grid;
+      padding-top:10px;
+      grid-template-columns:1fr 10fr 1fr;
+    }
+		canvas { border: 1px solid black; }  
+		button {background-color:gray;color:white}
+  </style>
+</head>
+<body onload="draw(1)" style="font-size:14pt;font-family:arial;background-color:black;color:white">
+<!--<script src="july_2020/durer_adam_eve_data.js"></script>-->
+<script>
+//let imageIn = 'july_2020/durer_adam_eve.jpg';
+</script>
+<script src="zoom0.js"></script>
+<script src="zoom1.js"></script>
+
+
+
+<div class="theGrid">
+  <div style="padding-left:40px">ImageDiver</div>
+	<div style="text-align:center;color:white">
+	  <div style="font-style:italic;padding-bottom:10px">
+		Adam and Eve, Albrecht Dürer, 1507
+		</div>
+		<div style="display:inline-block">
+		  <canvas  id="zoomCanvas" width="900" height="500">
+		  </canvas>
+		</div><br/>
+		<button id="zoomInButton">+</button>		
+		<button  id="zoomOutButton">-</button>
+    <button  onClick="viewAll()">View All</button>
+	 <button  onClick="zoomToDetail()">Zoom to Detail</button>
+	 <button id="toggleBoxButton" onClick="toggleBox()">Hide Detail Box</button>
+	</div>
+	<div><a style="color:white" href="https://imagediver.tumblr.com">Blog</a></div>
+</div>
+
+
+</body>
+</html>
